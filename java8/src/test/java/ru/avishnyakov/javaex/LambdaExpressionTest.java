@@ -46,4 +46,22 @@ public class LambdaExpressionTest {
         BinaryOperator<Long> addExplicit = (Long x, Long y) -> x + y;
         assertEquals(7L, addExplicit.apply(4L, 3L));
     }
+
+    @Test
+    public void lambdaEffectivelyFinalVariables() {
+        final String name = getUserName();
+        final Button button = new Button();
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Hi " + name);
+            }
+        });
+
+        button.addActionListener(event -> System.out.println("Hi " + name));
+    }
+
+    private String getUserName() {
+        return "John Doe";
+    }
 }
