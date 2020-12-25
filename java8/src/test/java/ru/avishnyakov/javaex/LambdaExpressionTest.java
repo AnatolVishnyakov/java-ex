@@ -5,6 +5,9 @@ import org.junit.jupiter.api.Test;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.function.BinaryOperator;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LambdaExpressionTest {
     @Test
@@ -24,5 +27,23 @@ public class LambdaExpressionTest {
         // 3
         ActionListener actionListener = event -> System.out.println("Click");
         button.addActionListener(actionListener);
+    }
+
+    @Test
+    public void lambdaExpressionVariants() {
+        Runnable noArguments = () -> System.out.println("Hello world!");
+
+        ActionListener oneArgument = event -> System.out.println("Button clicked");
+
+        Runnable multiStatement = () -> {
+            System.out.print("Hello");
+            System.out.println(" world!");
+        };
+
+        BinaryOperator<Long> sub = (x, y) -> x - y;
+        assertEquals(5L, sub.apply(8L, 3L));
+
+        BinaryOperator<Long> addExplicit = (Long x, Long y) -> x + y;
+        assertEquals(7L, addExplicit.apply(4L, 3L));
     }
 }
