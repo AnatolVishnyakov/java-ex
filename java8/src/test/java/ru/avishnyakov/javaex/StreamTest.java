@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.lang.Character.isDigit;
 import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -64,12 +65,31 @@ public class StreamTest {
 
     @Test
     public void testFilter() {
-        allArtists.stream()
-                .filter(artist -> {
-                    System.out.println(artist.getName());
-                    return artist.isFrom("London");
-                })
-        .count();
+        {
+            allArtists.stream()
+                    .filter(artist -> {
+                        System.out.println(artist.getName());
+                        return artist.isFrom("London");
+                    })
+                    .count();
+        }
+        {
+            final List<String> beginningWithNumbers = new ArrayList<>();
+            for (String value : asList("a", "1abc", "abc1")) {
+                if (isDigit(value.charAt(0))) {
+                    beginningWithNumbers.add(value);
+                }
+            }
+
+            assertEquals(asList("1abc"), beginningWithNumbers);
+        }
+        {
+            final List<String> beginningWithNumbers = Stream.of("a", "1abc", "abc1")
+                    .filter(value -> isDigit(value.charAt(0)))
+                    .collect(Collectors.toList());
+
+            assertEquals(asList("1abc"), beginningWithNumbers);
+        }
     }
 
     @Test
