@@ -23,4 +23,8 @@ public class Artist {
     public boolean isFrom(String city) {
         return this.city.equals(city);
     }
+
+    public String getName() {
+        return name;
+    }
 }

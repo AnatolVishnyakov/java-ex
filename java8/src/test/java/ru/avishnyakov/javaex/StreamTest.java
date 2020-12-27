@@ -8,6 +8,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -58,5 +60,23 @@ public class StreamTest {
                 .count();
 
         assertEquals(2, count);
+    }
+
+    @Test
+    public void testFilter() {
+        allArtists.stream()
+                .filter(artist -> {
+                    System.out.println(artist.getName());
+                    return artist.isFrom("London");
+                })
+        .count();
+    }
+
+    @Test
+    public void testCollect() {
+        final List<String> collected = Stream.of("a", "b", "c")
+                .collect(Collectors.toList());
+
+        assertEquals(Arrays.asList("a", "b", "c"), collected);
     }
 }
