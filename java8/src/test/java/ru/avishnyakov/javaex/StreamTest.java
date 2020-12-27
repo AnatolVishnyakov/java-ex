@@ -5,12 +5,12 @@ import org.junit.jupiter.api.Test;
 import ru.avishnyakov.javaex.model.Artist;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static java.util.Arrays.asList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StreamTest {
@@ -18,7 +18,7 @@ public class StreamTest {
 
     @BeforeEach
     public void init() {
-        allArtists.addAll(Arrays.asList(
+        allArtists.addAll(asList(
                 new Artist("Little Big", "Moscow"),
                 new Artist("Rag'n Rod", "New York"),
                 new Artist("Bring me the horizone", "London"),
@@ -77,6 +77,27 @@ public class StreamTest {
         final List<String> collected = Stream.of("a", "b", "c")
                 .collect(Collectors.toList());
 
-        assertEquals(Arrays.asList("a", "b", "c"), collected);
+        assertEquals(asList("a", "b", "c"), collected);
+    }
+
+    @Test
+    public void testMap() {
+        final List<String> values = asList("a", "b", "c");
+        {
+            final ArrayList<String> collected = new ArrayList<>();
+            for (String string : values) {
+                String upperCaseString = string.toUpperCase();
+                collected.add(upperCaseString);
+            }
+
+            assertEquals(asList("A", "B", "C"), collected);
+        }
+        {
+            final List<String> collected = Stream.of("a", "b", "c")
+                    .map(String::toUpperCase)
+                    .collect(Collectors.toList());
+
+            assertEquals(asList("A", "B", "C"), collected);
+        }
     }
 }
