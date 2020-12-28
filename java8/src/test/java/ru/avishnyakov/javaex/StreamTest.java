@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import ru.avishnyakov.javaex.model.Artist;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -119,5 +120,16 @@ public class StreamTest {
 
             assertEquals(asList("A", "B", "C"), collected);
         }
+    }
+
+    @Test
+    public void testFlatMap() {
+        // позволяет конкатенировать потоки
+        // (на выходе новый stream)
+        List<Integer> joinLists = Stream.of(asList(1, 2), asList(3, 4), asList(5, 6))
+                .flatMap(Collection::stream)
+                .collect(Collectors.toList());
+
+        assertEquals(asList(1, 2, 3, 4, 5, 6), joinLists);
     }
 }
