@@ -154,4 +154,18 @@ public class StreamTest {
         assertEquals(longestTrack.getLength(), statistics.getMax());
         assertEquals(shortestTrack.getLength(), statistics.getMin());
     }
+
+    @Test
+    public void testReduce() {
+        /* Принцип редукции:
+            Object accumulator = initialValue;
+            for (Object element : collection) {
+                accumulator = combine(accumulator, element);
+            }
+            // Редуктор имеет тип BinaryOperator
+        * */
+        assertEquals(10, Stream.of(1, 2, 3, 4).reduce(0, (acc, element) -> acc + element));
+        assertEquals(10, Stream.of(1, 2, 3, 4).reduce(0, Integer::sum));
+        assertEquals(10, Stream.of(1, 2, 3, 4).reduce(Integer::sum).get());
+    }
 }
