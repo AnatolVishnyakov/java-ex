@@ -3,11 +3,9 @@ package ru.avishnyakov.javaex;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.avishnyakov.javaex.model.Artist;
+import ru.avishnyakov.javaex.model.Track;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -131,5 +129,29 @@ public class StreamTest {
                 .collect(Collectors.toList());
 
         assertEquals(asList(1, 2, 3, 4, 5, 6), joinLists);
+    }
+
+    @Test
+    public void testMinAndMax() {
+        final List<Track> tracks = asList(
+                new Track("Bakai", 524),
+                new Track("Violets for Your Furs", 378),
+                new Track("Time Was", 451)
+        );
+
+        final Track shortestTrack = tracks.stream()
+                .min(Comparator.comparing(Track::getLength))
+                .get();
+        assertEquals(tracks.get(1), shortestTrack);
+
+        final Track longestTrack = tracks.stream()
+                .max(Comparator.comparing(Track::getLength))
+                .get();
+        assertEquals(tracks.get(0), longestTrack);
+
+        final IntSummaryStatistics statistics = tracks.stream()
+                .collect(Collectors.summarizingInt(Track::getLength));
+        assertEquals(longestTrack.getLength(), statistics.getMax());
+        assertEquals(shortestTrack.getLength(), statistics.getMin());
     }
 }
