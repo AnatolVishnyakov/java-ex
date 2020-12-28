@@ -2,9 +2,11 @@ package ru.avishnyakov.javaex;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import ru.avishnyakov.javaex.model.Album;
 import ru.avishnyakov.javaex.model.Artist;
 import ru.avishnyakov.javaex.model.Track;
 
+import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -15,6 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class StreamTest {
     private final List<Artist> allArtists = new ArrayList<>();
+    private Album album;
 
     @BeforeEach
     public void init() {
@@ -24,6 +27,22 @@ public class StreamTest {
                 new Artist("Bring me the horizone", "London"),
                 new Artist("Some artist", "London")
         ));
+
+        final List<Track> tracks = asList(
+                new Track("Day in Day Out", Duration.parse("PT3M10S").getSeconds()),
+                new Track("Learn to Live", Duration.parse("PT4M01S").getSeconds()),
+                new Track("Delete, Rewind", Duration.parse("PT3M08S").getSeconds()),
+                new Track("BTN", Duration.parse("PT3M57S").getSeconds()),
+                new Track("An Open Letter to Myself", Duration.parse("PT3M16S").getSeconds()),
+                new Track("The Blues", Duration.parse("PT3M16S").getSeconds()),
+                new Track("Red Eyes", Duration.parse("PT4M17S").getSeconds()),
+                new Track("Stay Young Forever", Duration.parse("PT3M02S").getSeconds()),
+                new Track("Heartburn", Duration.parse("PT3M37S").getSeconds())
+        );
+        final List<Artist> musicians = asList(
+                new Artist("The architects", "UK")
+        );
+        album = new Album("The Here and Now", tracks, musicians);
     }
 
     @Test
@@ -149,8 +168,8 @@ public class StreamTest {
                 .get();
         assertEquals(tracks.get(0), longestTrack);
 
-        final IntSummaryStatistics statistics = tracks.stream()
-                .collect(Collectors.summarizingInt(Track::getLength));
+        final LongSummaryStatistics statistics = tracks.stream()
+                .collect(Collectors.summarizingLong(Track::getLength));
         assertEquals(longestTrack.getLength(), statistics.getMax());
         assertEquals(shortestTrack.getLength(), statistics.getMin());
     }
@@ -167,5 +186,14 @@ public class StreamTest {
         assertEquals(10, Stream.of(1, 2, 3, 4).reduce(0, (acc, element) -> acc + element));
         assertEquals(10, Stream.of(1, 2, 3, 4).reduce(0, Integer::sum));
         assertEquals(10, Stream.of(1, 2, 3, 4).reduce(Integer::sum).get());
+    }
+
+    @Test
+    public void testUnionOps() {
+        final Set<String> origins = album.getMusicians()
+                .filter(artist -> artist.getName().startsWith("The"))
+                .map(Artist::getNationality)
+                .collect(Collectors.toSet());
+        System.out.println(origins);
     }
 }
