@@ -10,7 +10,7 @@ import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class FunctionalIntefaceTest {
+public class FunctionalInterfaceTest {
     @Test
     public void testPredicate() {
         Predicate<Integer> isZero = value -> value == 0;
