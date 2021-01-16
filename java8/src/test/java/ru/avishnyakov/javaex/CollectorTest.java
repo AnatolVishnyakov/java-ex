@@ -133,4 +133,30 @@ public class CollectorTest {
     private Map<Artist, Long> numberOfAlbums(Stream<Album> albums) {
         return albums.collect(groupingBy(album -> album.getMainMusician(), counting()));
     }
+
+    @Test
+    public void testNameOfAlbumsDumb() {
+        final Map<Artist, List<String>> artistAlbums = nameOfAlbumsDumb(albums.stream());
+        System.out.println(artistAlbums);
+    }
+
+    private Map<Artist, List<String>> nameOfAlbumsDumb(Stream<Album> albums) {
+        final Map<Artist, List<Album>> albumsByArtist = albums.collect(groupingBy(album -> album.getMainMusician()));
+
+        Map<Artist, List<String>> nameOfAlbums = new HashMap<>();
+        for (Map.Entry<Artist, List<Album>> entry : albumsByArtist.entrySet()) {
+            nameOfAlbums.put(entry.getKey(), entry.getValue().stream().map(album -> album.getName()).collect(toList()));
+        }
+        return nameOfAlbums;
+    }
+
+    @Test
+    public void testNameOfAlbums() {
+        final Map<Artist, List<String>> albumsByArtist = nameOfAlbums(albums.stream());
+        System.out.println(albumsByArtist);
+    }
+
+    private Map<Artist, List<String>> nameOfAlbums(Stream<Album> albums) {
+        return albums.collect(groupingBy(Album::getMainMusician, mapping(Album::getName, toList())));
+    }
 }
