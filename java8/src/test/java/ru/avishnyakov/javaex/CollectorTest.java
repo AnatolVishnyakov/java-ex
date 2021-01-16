@@ -4,9 +4,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.avishnyakov.javaex.model.Album;
 import ru.avishnyakov.javaex.model.Artist;
+import ru.avishnyakov.javaex.util.StringCollector;
+import ru.avishnyakov.javaex.util.StringCombiner;
 
 import java.util.*;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Arrays.asList;
@@ -96,7 +99,7 @@ public class CollectorTest {
                 new Artist("solo-1", Collections.emptyList(), "USA"),
                 new Artist("solo-2", Collections.emptyList(), "Canada"),
                 new Artist("group-1", members, "USA")
-                );
+        );
         final Map<Boolean, List<Artist>> result = bandsAndSolo(artists.stream());
         assertEquals(1, result.get(false).size());
         assertEquals(2, result.get(true).size());
@@ -158,5 +161,97 @@ public class CollectorTest {
 
     private Map<Artist, List<String>> nameOfAlbums(Stream<Album> albums) {
         return albums.collect(groupingBy(Album::getMainMusician, mapping(Album::getName, toList())));
+    }
+
+    @Test
+    public void testStringJoinCollector() {
+        {
+            System.out.println("Императивный стиль");
+            final StringBuilder builder = new StringBuilder("[");
+            for (Artist artist : artists) {
+                if (builder.length() > 1) {
+                    builder.append(", ");
+                }
+
+                final String name = artist.getName();
+                builder.append(name);
+            }
+            builder.append("]");
+            final String result = builder.toString();
+            System.out.println(result);
+        }
+        {
+            System.out.println("Частично функциональный стиль 1");
+            final StringBuilder builder = new StringBuilder("[");
+            artists.stream()
+                    .map(Artist::getName)
+                    .forEach(name -> {
+                        if (builder.length() > 1) {
+                            builder.append(", ");
+                        }
+
+                        builder.append(name);
+                    });
+            builder.append("]");
+            final String result = builder.toString();
+            System.out.println(result);
+        }
+        {
+            System.out.println("Частично функциональный стиль 2");
+            final StringBuilder reduced = artists.stream()
+                    .map(Artist::getName)
+                    .reduce(new StringBuilder(), (builder, name) -> {
+                        if (builder.length() > 0) {
+                            builder.append(", ");
+                        }
+
+                        builder.append(name);
+                        return builder;
+                    }, (left, right) -> {
+                        System.out.println("Left: " + left + " Right: " + right);
+                        return left.append(right);
+                    });
+            reduced.insert(0, "[");
+            reduced.append("]");
+            final String result = reduced.toString();
+            System.out.println(result);
+        }
+        {
+            System.out.println("Частично функциональный стиль 3");
+            final String result = artists.stream()
+                    .map(Artist::getName)
+                    .reduce(new StringCombiner(", ", "[", "]"), StringCombiner::add, StringCombiner::merge)
+                    .toString();
+            System.out.println(result);
+        }
+        {
+            System.out.println("Функциональный стиль");
+            final String result = artists.stream()
+                    .map(Artist::getName)
+                    .collect(new StringCollector(", ", "[", "]"));
+            System.out.println(result);
+        }
+        {
+            System.out.println("Функциональный стиль");
+            final String result = artists.stream()
+                    .map(Artist::getName)
+                    .collect(joining(", ", "[", "]"));
+            System.out.println(result);
+        }
+        {
+            // Не эффективный из-за создания
+            // на каждый элемент контейнера
+            // StringCombiner
+            System.out.println("Функциональный стиль (через редукцию)");
+            final String result = artists.stream()
+                    .map(Artist::getName)
+                    .collect(Collectors.reducing(
+                            new StringCombiner(",", "[", "]"),
+                            name -> new StringCombiner(", ", "[", "]").add(name),
+                            StringCombiner::merge
+                    ))
+                    .toString();
+            System.out.println(result);
+        }
     }
 }
