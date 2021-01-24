@@ -1,4 +1,4 @@
-package ru.avishnyakov.javaex;
+package ru.avishnyakov.javaex.functional;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

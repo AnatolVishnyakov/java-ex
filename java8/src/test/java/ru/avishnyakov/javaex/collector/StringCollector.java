@@ -1,4 +1,4 @@
-package ru.avishnyakov.javaex.util;
+package ru.avishnyakov.javaex.collector;
 
 import java.util.Collections;
 import java.util.Set;

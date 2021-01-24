@@ -1,4 +1,4 @@
-package ru.avishnyakov.javaex;
+package ru.avishnyakov.javaex.stream;
 
 import org.junit.jupiter.api.Test;
 import ru.avishnyakov.javaex.model.Artist;

@@ -1,4 +1,4 @@
-package ru.avishnyakov.javaex;
+package ru.avishnyakov.javaex.collector;
 
 import org.junit.jupiter.api.Test;
 

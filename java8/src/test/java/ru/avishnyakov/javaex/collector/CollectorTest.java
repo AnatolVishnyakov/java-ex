@@ -1,11 +1,9 @@
-package ru.avishnyakov.javaex;
+package ru.avishnyakov.javaex.collector;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import ru.avishnyakov.javaex.model.Album;
 import ru.avishnyakov.javaex.model.Artist;
-import ru.avishnyakov.javaex.util.StringCollector;
-import ru.avishnyakov.javaex.util.StringCombiner;
 
 import java.util.*;
 import java.util.function.Function;

@@ -1,4 +1,4 @@
-package ru.avishnyakov.javaex.util;
+package ru.avishnyakov.javaex.collector;
 
 public class StringCombiner {
     private final StringBuilder builder = new StringBuilder();
