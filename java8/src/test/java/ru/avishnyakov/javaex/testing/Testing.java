@@ -1,12 +1,17 @@
 package ru.avishnyakov.javaex.testing;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import ru.avishnyakov.javaex.model.Album;
 import ru.avishnyakov.javaex.model.Track;
 
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.function.ToLongFunction;
+import java.util.stream.Collectors;
 
+import static java.util.Arrays.asList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static ru.avishnyakov.javaex.TestData.*;
 
 public class Testing {
@@ -16,10 +21,10 @@ public class Testing {
     }
 
     @Test
-    public void testImperative() {
-        System.out.println("Running time: " + countRunningTimeImperative());
-        System.out.println("Musicians: " + countMusiciansImperative());
-        System.out.println("Tracks: " + countTracksImperative());
+    public void testImperativeStream() {
+        assertEquals(countRunningTimeImperative(), countRunningTimeStream());
+        assertEquals(countMusiciansImperative(), countMusiciansStream());
+        assertEquals(countTracksImperative(), countTracksStream());
     }
 
     public long countRunningTimeImperative() {
@@ -48,13 +53,6 @@ public class Testing {
         return count;
     }
 
-    @Test
-    public void testStream() {
-        System.out.println(countRunningTimeStream());
-        System.out.println(countMusiciansStream());
-        System.out.println(countTracksStream());
-    }
-
     private long countFeature(ToLongFunction<Album> function) {
         return albums.stream()
                 .mapToLong(function)
@@ -74,5 +72,44 @@ public class Testing {
 
     private long countTracksStream() {
         return countFeature(album -> album.getTracks().count());
+    }
+
+    @Test
+    public void testAllToUpperCase() {
+        final List<String> strings = asList("test1", "test2", "test3");
+
+        assertEquals(asList("TEST1", "TEST2", "TEST3"), allToUpperCase(strings));
+    }
+
+    private List<String> allToUpperCase(List<String> words) {
+        return words.stream()
+            .map(string -> string.toUpperCase())
+            .collect(Collectors.toList());
+    }
+
+    @Test
+    public void testElementFirstToUpperCaseLambdas() {
+        final List<String> strings = asList("test1", "test2", "test3");
+
+        assertEquals(asList("Test1", "Test2", "Test3"), elementFirstToUpperCaseLambdas(strings));
+    }
+
+    private List<String> elementFirstToUpperCaseLambdas(List<String> words) {
+        return words.stream()
+                .map(value -> {
+                    final char firstChar = Character.toUpperCase(value.charAt(0));
+                    return firstChar + value.substring(1);
+                })
+                .collect(Collectors.toList());
+    }
+
+    @Test
+    public void testPeek() {
+        final Set<String> nationalities = album.getMusicians()
+                .filter(artist -> artist.getName().startsWith("The"))
+                .map(artist -> artist.getNationality())
+                .peek(nation -> System.out.println("Found nationality: " + nation))
+                .collect(Collectors.<String>toSet());
+        assertEquals(new HashSet<>(asList("UK")), nationalities);
     }
 }
