@@ -41,4 +41,9 @@ public class DateTest {
         assertNotNull(currentDate.toInstant());
         assertEquals(Instant.class, currentDate.toInstant().getClass());
     }
+
+    @Test
+    public void testFromInstant() {
+        assertEquals(currentDate, Date.from(currentDate.toInstant()));
+    }
 }
