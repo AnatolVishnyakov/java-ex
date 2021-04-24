@@ -7,7 +7,7 @@ import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class JavaUtilDateTest {
+public class DateTest {
     private static final Date pastDate = new Date(1518678377185L);
     private static final Date futureDate = new Date(4718678377185L);
     private static final Date currentDate = new Date(1618678865548L);
