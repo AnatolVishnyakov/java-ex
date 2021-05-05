@@ -16,29 +16,6 @@ public class CalendarTest {
     }
 
     @Test
-    public void test() {
-        System.out.println(Calendar.getAvailableCalendarTypes());
-        System.out.println(Calendar.getInstance());
-        System.out.println(Calendar.getInstance(TimeZone.getTimeZone("America/New_York")));
-        System.out.println(Calendar.getInstance(Locale.ENGLISH));
-        System.out.println(Arrays.toString(Calendar.getAvailableLocales()));
-
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-
-        System.out.println(Calendar.getInstance().getClass());
-    }
-
-    @Test
-    public void testDayOfWeek() {
-        assertEquals("Пн", getDayOfWeek());
-    }
-
-    private String getDayOfWeek() {
-        calendar.add(Calendar.DAY_OF_WEEK, 1);
-        return calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, new Locale("ru"));
-    }
-
-    @Test
     @DisplayName("Год")
     public void testYear() {
         assertEquals(2021, calendar.getWeekYear());
@@ -61,5 +38,29 @@ public class CalendarTest {
     @DisplayName("Дней (сначала года) прошло")
     public void testDayOfYear() {
         assertEquals(109, calendar.get(Calendar.DAY_OF_YEAR));
+    }
+
+    @Test
+    @DisplayName("Месяц (отсчет с 0)")
+    public void testMonth() {
+        // April
+        assertEquals(3, calendar.get(Calendar.MONTH));
+    }
+
+    @Test
+    @DisplayName("Дней (сначала месяца) прошло")
+    public void testDayOfMonth() {
+        assertEquals(19, calendar.get(Calendar.DAY_OF_WEEK));
+    }
+
+    @Test
+    @DisplayName("Недель (сначала месяца) прошло")
+    public void testWeekOfMonth() {
+        assertEquals(4, calendar.get(Calendar.WEEK_OF_MONTH));;
+    }
+
+    @Test
+    public void testDayOfWeekInMonth() {
+        assertEquals(3, calendar.get(Calendar.DAY_OF_WEEK_IN_MONTH));
     }
 }
