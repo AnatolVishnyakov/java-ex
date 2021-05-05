@@ -46,4 +46,12 @@ public class DateTest {
     public void testFromInstant() {
         assertEquals(currentDate, Date.from(currentDate.toInstant()));
     }
+
+    @Test
+    public void testMutable() {
+        Date mutableDate = new Date(currentDate.getTime());
+        mutableDate.setTime(pastDate.getTime());
+        assertEquals(pastDate, mutableDate);
+        assertNotEquals(currentDate, mutableDate);
+    }
 }
