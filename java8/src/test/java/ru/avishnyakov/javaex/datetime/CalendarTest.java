@@ -1,5 +1,6 @@
 package ru.avishnyakov.javaex.datetime;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.util.*;
@@ -35,5 +36,30 @@ public class CalendarTest {
     private String getDayOfWeek() {
         calendar.add(Calendar.DAY_OF_WEEK, 1);
         return calendar.getDisplayName(Calendar.DAY_OF_WEEK, Calendar.SHORT, new Locale("ru"));
+    }
+
+    @Test
+    @DisplayName("Год")
+    public void testYear() {
+        assertEquals(2021, calendar.getWeekYear());
+        assertEquals(2021, calendar.get(Calendar.YEAR));
+    }
+
+    @Test
+    @DisplayName("Недель в году")
+    public void testWeeksInYear() {
+        assertEquals(52, calendar.getWeeksInWeekYear());
+    }
+
+    @Test
+    @DisplayName("Недель (сначала года) прошло")
+    public void testWeekOfYear() {
+        assertEquals(17, calendar.get(Calendar.WEEK_OF_YEAR));
+    }
+
+    @Test
+    @DisplayName("Дней (сначала года) прошло")
+    public void testDayOfYear() {
+        assertEquals(109, calendar.get(Calendar.DAY_OF_YEAR));
     }
 }
