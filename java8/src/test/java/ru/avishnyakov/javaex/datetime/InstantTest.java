@@ -10,11 +10,11 @@ import java.time.temporal.ChronoUnit;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InstantTest {
-    private static final long EPOCH_SECOND = 1618678865L;
-    private static final long EPOCH_MILLI = 1618678865548L;
+    private static final long EPOCH_SECOND = 1618678865L;   // 2021-04-17T17:01:05Z
+    private static final long EPOCH_MILLI = 1618678865548L; // 2021-04-17T17:01:05.548Z
     private static final long NANO_SECOND = 999_999_999;
     private static final Instant instant = Instant.ofEpochMilli(EPOCH_MILLI);
-    private static final Instant instantWithNano = instant.with(ChronoField.NANO_OF_SECOND, NANO_SECOND);
+    private static final Instant instantWithNano = instant.with(ChronoField.NANO_OF_SECOND, NANO_SECOND); // 2021-04-17T17:01:05.999999999Z
 
     @Test
     public void testAtZone() {
@@ -23,7 +23,6 @@ public class InstantTest {
 
     @Test
     public void testEpochMilli() {
-        System.out.println(instant.getEpochSecond()); // 2021-04-17T17:01:05.548Z
         assertEquals(instant, Instant.ofEpochMilli(EPOCH_MILLI));
     }
 
