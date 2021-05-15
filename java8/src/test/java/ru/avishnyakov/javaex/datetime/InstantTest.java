@@ -3,7 +3,9 @@ package ru.avishnyakov.javaex.datetime;
 import org.junit.jupiter.api.Test;
 
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
 
@@ -34,5 +36,12 @@ public class InstantTest {
     @Test
     public void testEpochSecondWithNanoSeconds() {
         assertEquals(instantWithNano, Instant.ofEpochSecond(EPOCH_SECOND, NANO_SECOND));
+    }
+
+    @Test
+    public void testFrom() {
+        assertEquals(instant, Instant.from(ZonedDateTime.ofInstant(instant, ZoneId.systemDefault())));
+        assertEquals(instant, Instant.from(OffsetDateTime.ofInstant(instant, ZoneId.systemDefault())));
+        assertEquals(instant, Instant.from(instant));
     }
 }
