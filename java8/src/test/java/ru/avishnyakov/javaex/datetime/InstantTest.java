@@ -44,4 +44,16 @@ public class InstantTest {
         assertEquals(instant, Instant.from(OffsetDateTime.ofInstant(instant, ZoneId.systemDefault())));
         assertEquals(instant, Instant.from(instant));
     }
+
+    @Test
+    public void testParse() {
+        assertEquals(instant, Instant.parse("2021-04-17T17:01:05.548Z"));
+    }
+
+    @Test
+    public void testConstants() {
+        assertEquals(Instant.parse("1970-01-01T00:00:00Z"), Instant.EPOCH);
+        assertEquals(Instant.parse("-1000000000-01-01T00:00:00Z"), Instant.MIN);
+        assertEquals(Instant.parse("+1000000000-12-31T23:59:59.999999999Z"), Instant.MAX);
+    }
 }
