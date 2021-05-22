@@ -8,6 +8,9 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -21,6 +24,12 @@ public class InstantTest {
     @Test
     public void testAtZone() {
         assertEquals(ZoneId.of("Europe/Moscow"), instant.atZone(ZoneId.of("Europe/Moscow")).getZone());
+        List<ZonedDateTime> list = new ArrayList<>();
+        for (String zone : ZoneId.SHORT_IDS.values()) {
+            list.add(Instant.now().atZone(ZoneId.of(zone)));
+        }
+        list.sort(Comparator.comparing(ZonedDateTime::toLocalDateTime));
+        list.forEach(System.out::println);
     }
 
     @Test
