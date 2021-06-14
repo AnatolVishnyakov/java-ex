@@ -3,7 +3,8 @@ package ru.avishnyakov.javaex.datetime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-import java.util.*;
+import java.util.Calendar;
+import java.util.Date;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -12,7 +13,7 @@ public class CalendarTest {
 
     static {
         calendar = Calendar.getInstance();
-        calendar.setTime(new Date(1618851665548L));
+        calendar.setTime(new Date(1618851665548L)); // 2021-04-19T20:01:05.548+03:00
     }
 
     @Test
@@ -50,7 +51,7 @@ public class CalendarTest {
     @Test
     @DisplayName("Дней (сначала месяца) прошло")
     public void testDayOfMonth() {
-        assertEquals(19, calendar.get(Calendar.DAY_OF_WEEK));
+        assertEquals(2, calendar.get(Calendar.DAY_OF_WEEK));
     }
 
     @Test
