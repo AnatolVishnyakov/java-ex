@@ -3,8 +3,10 @@ package ru.avishnyakov.javaex.datetime;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -63,5 +65,17 @@ public class CalendarTest {
     @Test
     public void testDayOfWeekInMonth() {
         assertEquals(3, calendar.get(Calendar.DAY_OF_WEEK_IN_MONTH));
+    }
+
+    @Test
+    @DisplayName("Тип календаря")
+    public void testCalendarType() {
+        assertEquals("gregory", calendar.getCalendarType());
+    }
+
+    @Test
+    @DisplayName("Типы календарей")
+    public void test() {
+        assertEquals(new HashSet<>(Arrays.asList("gregory", "buddhist", "japanese")), Calendar.getAvailableCalendarTypes());
     }
 }
