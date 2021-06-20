@@ -1,4 +1,4 @@
-package ru.avishnyakov.javaex.datetime;
+package ru.avishnyakov.javaex.javatimeapi;
 
 import org.junit.jupiter.api.Test;
 

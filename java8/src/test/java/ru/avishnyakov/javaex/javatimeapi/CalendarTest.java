@@ -1,4 +1,4 @@
-package ru.avishnyakov.javaex.datetime;
+package ru.avishnyakov.javaex.javatimeapi;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -75,7 +75,7 @@ public class CalendarTest {
 
     @Test
     @DisplayName("Типы календарей")
-    public void test() {
+    public void testCalendarTypes() {
         assertEquals(new HashSet<>(Arrays.asList("gregory", "buddhist", "japanese")), Calendar.getAvailableCalendarTypes());
     }
 }
