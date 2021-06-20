@@ -3,9 +3,7 @@ package ru.avishnyakov.javaex.datetime;
 import org.junit.jupiter.api.Test;
 
 import java.time.*;
-import java.time.temporal.ChronoField;
-import java.time.temporal.ChronoUnit;
-import java.time.temporal.ValueRange;
+import java.time.temporal.*;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
@@ -131,5 +129,40 @@ public class InstantTest {
         assertEquals(ValueRange.of(0, 999_999), instant.range(ChronoField.MICRO_OF_SECOND));
         assertEquals(ValueRange.of(0, 999), instant.range(ChronoField.MILLI_OF_SECOND));
         assertEquals(ValueRange.of(Long.MIN_VALUE, Long.MAX_VALUE), instant.range(ChronoField.INSTANT_SECONDS));
+    }
+
+    @Test
+    public void testGet() {
+        assertEquals(548_000_000, instant.get(ChronoField.NANO_OF_SECOND));
+        assertEquals(548_000, instant.get(ChronoField.MICRO_OF_SECOND));
+        assertEquals(548, instant.get(ChronoField.MILLI_OF_SECOND));
+    }
+
+    @Test
+    public void testGetLong() {
+        assertEquals(548_000_000, instant.getLong(ChronoField.NANO_OF_SECOND));
+        assertEquals(548_000, instant.getLong(ChronoField.MICRO_OF_SECOND));
+        assertEquals(548, instant.getLong(ChronoField.MILLI_OF_SECOND));
+        assertEquals(1618678865, instant.getLong(ChronoField.INSTANT_SECONDS));
+    }
+
+    @Test
+    public void testGetEpochSecond() {
+        assertEquals(EPOCH_SECOND, instant.getEpochSecond());
+    }
+
+    @Test
+    public void testGetNano() {
+        assertEquals(548_000_000, instant.getNano());
+    }
+
+    @Test
+    public void testWith() {
+        assertEquals(Instant.parse("2022-01-01T00:00:00Z"), instant.with(Instant.parse("2022-01-01T00:00:00.000Z")));
+    }
+
+    @Test
+    public void testWithNewValue() {
+        assertEquals(Instant.parse("2021-04-17T17:01:05.666Z"), instant.with(ChronoField.MILLI_OF_SECOND, 666));
     }
 }
