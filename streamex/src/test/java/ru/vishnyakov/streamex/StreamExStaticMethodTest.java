@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -29,17 +30,18 @@ public class StreamExStaticMethodTest {
 
     @Test
     void constant() {
-
+        assertEquals(Arrays.asList(1, 1, 1, 1), StreamEx.constant(1, 4).toList());
     }
 
     @Test
     void empty() {
-
+        assertEquals(Collections.emptyList(), StreamEx.empty().toList());
     }
 
     @Test
     void generate() {
-
+        StreamEx<Integer> generator = StreamEx.generate(() -> 1).limit(3);
+        assertEquals(Arrays.asList(1, 1, 1), generator.toList());
     }
 
     @Test
