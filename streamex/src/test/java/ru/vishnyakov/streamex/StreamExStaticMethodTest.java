@@ -6,10 +6,9 @@ import org.junit.jupiter.api.Test;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.TreeSet;
+import java.util.*;
+import java.util.function.Predicate;
+import java.util.function.UnaryOperator;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -40,13 +39,30 @@ public class StreamExStaticMethodTest {
 
     @Test
     void generate() {
-        StreamEx<Integer> generator = StreamEx.generate(() -> 1).limit(3);
-        assertEquals(Arrays.asList(1, 1, 1), generator.toList());
+        List<Integer> values = StreamEx.generate(() -> 1).limit(3).toList();
+        assertEquals(3, values.size());
+        assertEquals(Arrays.asList(1, 1, 1), values);
     }
 
     @Test
-    void iterate() {
+    void iterateUnaryOperator() {
+        UnaryOperator<Integer> increment = i -> i + 1;
 
+        List<Integer> values = StreamEx.iterate(1, increment).limit(10).toList();
+
+        assertEquals(10, values.size());
+        assertEquals(Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10), values);
+    }
+
+    @Test
+    void iteratePredicateAndUnaryOperator() {
+        Predicate<Integer> filter = i -> i <= 5;
+        UnaryOperator<Integer> increment = i -> i + 1;
+
+        List<Integer> values = StreamEx.iterate(1, filter, increment).toList();
+
+        assertEquals(5, values.size());
+        assertEquals(Arrays.asList(1, 2, 3, 4, 5), values);
     }
 
     @Test
