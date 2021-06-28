@@ -67,13 +67,15 @@ public class StreamExStaticMethodTest {
 
     @Test
     void of() {
-        System.out.println(StreamEx.of(123).toList());
-        System.out.println(StreamEx.of(1, 2, 3).toList());
-        System.out.println(StreamEx.of(StreamEx.of(1, 2, 3, 4, 5)).toList());
-        System.out.println(StreamEx.of(Arrays.asList(1, 2, 3, 4, 5, 6).iterator()).toList());
-        System.out.println(StreamEx.of(Optional.of(Arrays.asList(1, 2, 5))).toList());
-        System.out.println(StreamEx.of(new StringTokenizer("a b c d e f", " ")).toList());
-        System.out.println(StreamEx.of(new Integer[]{1, 2, 5, 6, 9}, 2, 5).toList());
+        assertEquals(Arrays.asList(1), StreamEx.of(1).toList());
+        assertEquals(Arrays.asList(1, 2, 3), StreamEx.of(1, 2, 3).toList());
+        assertEquals(Arrays.asList(1, 2, 4, 5), StreamEx.of(StreamEx.of(1, 2, 4, 5)).toList());
+        assertEquals(Arrays.asList(1, 2, 3, 4, 5, 6), StreamEx.of(Arrays.asList(1, 2, 3, 4, 5, 6).iterator()).toList());
+        assertEquals(Arrays.asList(1234), StreamEx.of(Optional.of(1234)).toList());
+        assertEquals(Arrays.asList("a", "b", "c", "d", "e", "f"), StreamEx.of(new StringTokenizer("a b c d e f", " ")).toList());
+        assertEquals(Arrays.asList(1, 4, 6), StreamEx.of(StreamEx.of(1, 4, 6).spliterator()).toList());
+        assertEquals(Arrays.asList(5, 6, 9), StreamEx.of(new Integer[]{1, 2, 5, 6, 9}, 2, 5).toList());
+        assertEquals(Arrays.asList(9, 8, 6), StreamEx.of(new ArrayList<>(Arrays.asList(9, 8, 6))).toList());
     }
 
     @Test
