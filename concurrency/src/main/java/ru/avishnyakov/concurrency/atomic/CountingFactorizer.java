@@ -25,7 +25,8 @@ public class CountingFactorizer extends HttpServlet {
         BigInteger i = extractFromRequest(req);
         BigInteger[] factors = factor(i);
 
-        count.incrementAndGet();
+        count.incrementAndGet()
+        ;
 
 //        encodeIntoResponse(resp, factors);
     }
