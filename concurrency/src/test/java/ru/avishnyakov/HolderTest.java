@@ -9,7 +9,7 @@ import java.util.concurrent.Executors;
 public class HolderTest {
     @RepeatedTest(100)
     void test() {
-        ExecutorService executors = Executors.newFixedThreadPool(20);
+        ExecutorService executors = Executors.newFixedThreadPool(10);
         HolderWrapper holderWrapper = new HolderWrapper();
         for (int i = 0; i < 10; i++) {
             executors.execute(() -> {
