@@ -39,59 +39,58 @@ public class TaxiTracker {
         Point loc = evt.getNewLocation();
         setLocation(evt.getVehicleId(), loc.x, loc.y);
     }
-}
 
+    static class VehicleMovedEvent {
+        public Point getNewLocation() {
+            return null;
+        }
 
-class VehicleMovedEvent {
-    public Point getNewLocation() {
-        return null;
+        public String getVehicleId() {
+            return null;
+        }
     }
 
-    public String getVehicleId() {
-        return null;
-    }
-}
+    static class Vehicle {
+        String vehicleId;
+        Point locations;
 
-class Vehicle {
-    String vehicleId;
-    Point locations;
+        public Vehicle(String vehicleId, Point locations) {
+            this.vehicleId = vehicleId;
+            this.locations = locations;
+        }
 
-    public Vehicle(String vehicleId, Point locations) {
-        this.vehicleId = vehicleId;
-        this.locations = locations;
-    }
+        public String getVehicleId() {
+            return vehicleId;
+        }
 
-    public String getVehicleId() {
-        return vehicleId;
-    }
-
-    public Point getLocations() {
-        return locations;
-    }
-}
-
-class Point {
-    int x;
-    int y;
-
-    public Point(int x, int y) {
-        this.x = x;
-        this.y = y;
+        public Point getLocations() {
+            return locations;
+        }
     }
 
-    public int getX() {
-        return x;
-    }
+    static class Point {
+        int x;
+        int y;
 
-    public int getY() {
-        return y;
-    }
+        public Point(int x, int y) {
+            this.x = x;
+            this.y = y;
+        }
 
-    public void setX(int x) {
-        this.x = x;
-    }
+        public int getX() {
+            return x;
+        }
 
-    public void setY(int y) {
-        this.y = y;
+        public int getY() {
+            return y;
+        }
+
+        public void setX(int x) {
+            this.x = x;
+        }
+
+        public void setY(int y) {
+            this.y = y;
+        }
     }
 }
