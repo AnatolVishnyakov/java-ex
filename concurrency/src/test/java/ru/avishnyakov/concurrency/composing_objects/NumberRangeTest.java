@@ -2,29 +2,38 @@ package ru.avishnyakov.concurrency.composing_objects;
 
 import org.junit.jupiter.api.RepeatedTest;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
-import java.util.concurrent.ThreadLocalRandom;
+import java.util.Random;
+import java.util.concurrent.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class NumberRangeTest {
+    ExecutorService executors = Executors.newWorkStealingPool(2);
 
-    @RepeatedTest(1000)
+    @RepeatedTest(10_000)
     void isInRange() throws InterruptedException {
+        CountDownLatch latch = new CountDownLatch(2);
         NumberRange numberRange = new NumberRange();
 
-        ExecutorService executors = Executors.newFixedThreadPool(2);
-        executors.execute(() -> numberRange.setLower(ThreadLocalRandom.current().nextInt(5,10)));
-        executors.execute(() -> numberRange.setUpper(ThreadLocalRandom.current().nextInt(1, 5)));
-        executors.shutdown();
+        executors.execute(() -> {
+            System.out.println(Thread.currentThread().getName());
+            numberRange.setUpper(new Random().nextInt(10));
+            latch.countDown();
+        });
+        executors.execute(() -> {
+            System.out.println(Thread.currentThread().getName());
+            numberRange.setLower(new Random().nextInt(10));
+            latch.countDown();
+        });
 
-        Thread.sleep(10);
+        latch.await();
 
-        System.out.println(numberRange);
+        if (numberRange.getLower() != 0 &&
+                numberRange.getUpper() != 0 &&
+                numberRange.getLower() > numberRange.getUpper()
+        ) {
+            System.out.println(numberRange);
+        }
         assertTrue(numberRange.getLower() <= numberRange.getUpper());
     }
 }

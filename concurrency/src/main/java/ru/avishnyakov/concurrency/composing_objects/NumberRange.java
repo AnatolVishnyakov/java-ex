@@ -1,21 +1,27 @@
 package ru.avishnyakov.concurrency.composing_objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class NumberRange {
+    private static final Logger logger = LoggerFactory.getLogger(NumberRange.class);
     private final AtomicInteger lower = new AtomicInteger(0);
     private final AtomicInteger upper = new AtomicInteger(0);
 
     public void setLower(int i) {
         if (i > upper.get()) {
-            throw new IllegalArgumentException("не могу установить lower: " + i + " > upper");
+            logger.warn("не могу установить lower: {} > upper", i);
+            return;
         }
         lower.set(i);
     }
 
     public void setUpper(int i) {
         if (i < lower.get()) {
-            throw new IllegalArgumentException("не могу установить upper: " + i + " < lower");
+            logger.warn("не могу установить upper: {} < lower", i);
+            return;
         }
         upper.set(i);
     }
