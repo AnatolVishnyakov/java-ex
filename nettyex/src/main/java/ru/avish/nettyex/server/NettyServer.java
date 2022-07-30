@@ -36,7 +36,11 @@ public class NettyServer {
                     .childHandler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         public void initChannel(SocketChannel ch) {
-                            ch.pipeline().addLast(new RequestDecoder(), new ResponseDataEncoder(), new ProcessingHandler());
+                            ch.pipeline().addLast(
+                                    new RequestDecoder(),
+                                    new ResponseDataEncoder(),
+                                    new ProcessingHandler()
+                            );
                         }
                     }).option(ChannelOption.SO_BACKLOG, 128)
                     .childOption(ChannelOption.SO_KEEPALIVE, true);
