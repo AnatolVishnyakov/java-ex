@@ -10,9 +10,7 @@ import ru.avish.nettyex.ResponseData;
 public class ProcessingHandler extends ChannelInboundHandlerAdapter {
 
     @Override
-    public void channelRead(ChannelHandlerContext ctx, Object msg)
-            throws Exception {
-
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
         RequestData requestData = (RequestData) msg;
         ResponseData responseData = new ResponseData();
         responseData.setIntValue(requestData.getIntValue() * 2);
